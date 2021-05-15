@@ -8,9 +8,14 @@ const PORT = 5000;
 //creating express
 const app = express();
 const logger = morgan("dev");
-app.use(logger);
+
+//let us use pug as our view engine
+app.set("view engine", "pug");
+//redirect express to where the pug files are
+app.set("views", process.cwd() + "/src/views");
 
 //use() allow us to use function on every route
+app.use(logger);
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);

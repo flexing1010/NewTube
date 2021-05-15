@@ -1,9 +1,17 @@
 import express from "express";
-import { watch, edit } from "../controllers/userController";
+import {
+  see,
+  edit,
+  upload,
+  deleteVideo,
+} from "../controllers/videoController.js";
 
 const videoRouter = express.Router();
 
-videoRouter.get("/watch", watch);
-videoRouter.get("/edit", edit);
+//upload has to be above /:id, if not express will think its an id
+videoRouter.get("/upload", upload);
+videoRouter.get("/:id(\\d+)", see);
+videoRouter.get("/:id(\\d+)/delete", deleteVideo);
+videoRouter.get("/:id(\\d+)/edit", edit);
 
 export default videoRouter;
