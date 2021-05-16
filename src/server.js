@@ -16,6 +16,7 @@ app.set("views", process.cwd() + "/src/views");
 
 //use() allow us to use function on every route
 app.use(logger);
+app.use(express.urlencoded({ extended: true }));
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
