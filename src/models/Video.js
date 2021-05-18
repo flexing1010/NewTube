@@ -13,7 +13,20 @@ const videoSchema = new mongoose.Schema({
   },
 });
 
-//it's a convetion to use uppercase for model
+videoSchema.static("formatHashtags", function (hashtags) {
+  return hashtags
+    .split(",")
+    .map((word) => (word.startsWith("#") ? word : `#${word}`));
+});
+
+// //mongoose middleware that activate before saves
+// videoSchema.pre("save", async function () {
+//   this.hashtags = this.hashtags[0]
+//     .split(",")
+//     .map((word) => (word.startsWith("#") ? word : `#${word}`));
+// });
+
+//it's a convetion to use uppercase for a model
 const Video = mongoose.model("Video", videoSchema);
 
 export default Video;

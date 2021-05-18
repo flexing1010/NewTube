@@ -1,6 +1,6 @@
 import express from "express";
 import morgan from "morgan";
-import globalRouter from "./routers/globalRouter.js";
+import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
 
@@ -17,7 +17,7 @@ app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 //bodyparser의 역할
 app.use(express.urlencoded({ extended: true }));
-app.use("/", globalRouter);
+app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
 

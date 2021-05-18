@@ -1,7 +1,7 @@
 import Video from "../models/Video.js";
 
 export const home = async (req, res) => {
-  const videos = await Video.find({});
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
   //first db will look for videos on db and we save it to videos variable
   return res.render("home", { pageTitle: "Home", videos });
 };
@@ -40,15 +40,13 @@ export const postEdit = async (req, res) => {
   await Video.findByIdAndUpdate(id, {
     title: newTitle,
     description,
-    hashtags: hashtags
-      .split(",")
-      .map((word) => (word.startsWith("#") ? word : `#${word}`)),
+    hashtags: Video.formatHashtags(hashtags),
   });
-
   return res.redirect(`/videos/${id}`);
 };
 // Edit Video//
 
+// Upload Video//
 export const getUpload = (req, res) => {
   return res.render("upload", { pageTitle: "Upload Video" });
 };
@@ -59,7 +57,7 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashtags: hashtags.split(",").map((word) => `#${word}`),
+      hashtags: Video.formatHashtags(hashtags),
     });
     return res.redirect("/");
   } catch (error) {
@@ -69,4 +67,26 @@ export const postUpload = async (req, res) => {
       errorMessage: error._message,
     });
   }
+};
+// Upload Video//
+
+export const deleteVideo = async (req, res) => {
+  const { id } = req.params;
+  await Video.findByIdAndDelete(id);
+  return res.redirect("/");
+};
+
+export const search = async (req, res) => {
+  const { keyword } = req.query;
+  //if we make videos array in if it only lives inside of if statement
+  //by making it ourside of if, if statement updates videos array
+  let videos = [];
+  if (keyword) {
+    videos = await Video.find({
+      title: {
+        $regex: new RegExp(keyword, "i"),
+      },
+    });
+  }
+  return res.render("search", { pageTitle: "Search", videos });
 };
