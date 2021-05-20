@@ -1,8 +1,10 @@
 import express from "express";
 import morgan from "morgan";
+import session from "express-session";
 import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
+import { localsMiddleware } from "./middlewares.js";
 
 //creating express
 const app = express();
@@ -17,6 +19,15 @@ app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 //bodyparser의 역할
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: "Hello!",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+app.use(localsMiddleware);
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
