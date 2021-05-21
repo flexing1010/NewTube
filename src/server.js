@@ -5,6 +5,7 @@ import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
 import { localsMiddleware } from "./middlewares.js";
+import MongoStore from "connect-mongo";
 
 //creating express
 const app = express();
@@ -19,11 +20,14 @@ app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 //bodyparser의 역할
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   session({
-    secret: "Hello!",
-    resave: true,
-    saveUninitialized: true,
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    //saving session to mongoDB
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
 
