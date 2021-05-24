@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const videoSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true, maxLength: 80 },
+  fileUrl: { type: String, required: true },
   description: { type: String, required: true, trim: true, minLength: 5 },
   //default에 Date.now를 사용함으로 써 Video.create에 createdAt을 설정 할 필요없이
   //자동적으로 생성되게 했다
