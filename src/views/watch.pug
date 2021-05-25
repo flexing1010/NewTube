@@ -5,8 +5,12 @@ block content
     div 
         p=video.description
         small=video.createdAt
-    a(href=`${video.id}/edit`) Edit Video &rarr;
-    //- by just saying edit not /edit we are using relative url(see note 18.1)
-    br
-    a(href=`${video.id}/delete`) Delete Video &rarr;
+    div 
+        small Uploaded by 
+            a(href=`/users/${video.owner._id}`) #{video.owner.name}
+    if String(video.owner._id) === String(loggedInUser._id)
+        a(href=`${video.id}/edit`) Edit Video &rarr;
+        //- by just saying edit not /edit we are using relative url(see note 18.1)
+        br
+        a(href=`${video.id}/delete`) Delete Video &rarr;
     

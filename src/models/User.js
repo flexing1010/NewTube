@@ -9,13 +9,16 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   name: { type: String, required: true },
   location: String,
+  videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
 });
 
 //mongoose middleware
 //this function act before(pre) user created by userSchema is saved
 userSchema.pre("save", async function () {
-  //in this case (this.) reffers to user being created
-  this.password = await bcrypt.hash(this.password, 5);
+  if (this.isModified("password")) {
+    //in this case (this.) reffers to user being created
+    this.password = await bcrypt.hash(this.password, 5);
+  }
 });
 
 const User = mongoose.model("User", userSchema);

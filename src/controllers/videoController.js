@@ -1,3 +1,4 @@
+import User from "../models/User.js";
 import Video from "../models/Video.js";
 
 export const home = async (req, res) => {
@@ -9,7 +10,8 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   //params comes from router :
   const { id } = req.params;
-  const video = await Video.findById(id);
+  const video = await Video.findById(id).populate("owner");
+
   if (!video) {
     //return is necessary in this case
     return res.status(404).render("404", { pageTitle: "Video not found" });
@@ -21,9 +23,15 @@ export const watch = async (req, res) => {
 // Edit Video//
 export const getEdit = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
   const video = await Video.findById(id);
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found" });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Edit ${video.title}`, video });
 };
@@ -31,11 +39,17 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
   //same as id = req.params.id
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
   const { newTitle, description, hashtags } = req.body;
   //here we can use exists because we only need to know if a video exists or not
-  const video = await Video.exists({ _id: id });
+  const video = await Video.findById(id);
   if (!video) {
-    return res.render("404", { pageTitle: "Video not found" });
+    return res.status(404).render("404", { pageTitle: "Video not found" });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
     title: newTitle,
@@ -52,16 +66,23 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
   //this is equal to fileUrl = req.file.path
   const { path: fileUrl } = req.file;
   const { title, description, hashtags } = req.body;
   try {
-    await Video.create({
+    const newVideo = await Video.create({
       title,
       description,
       fileUrl,
+      owner: _id,
       hashtags: Video.formatHashtags(hashtags),
     });
+    const user = await User.findById(_id);
+    user.videos.push(newVideo._id);
+    user.save();
     return res.redirect("/");
   } catch (error) {
     //error인자는 mongoose에서 온다
@@ -75,6 +96,16 @@ export const postUpload = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.status(404).render("404", { pageTitle: "Video not found" });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
 };
