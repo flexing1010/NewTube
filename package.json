@@ -2,14 +2,13 @@
   "name": "newtube",
   "version": "1.0.0",
   "description": "The best way to watch videos.",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/flexing1010/NewTube.git"
   },
   "scripts": {
-    "dev": "nodemon exec-- babel-node src/init.js",
-    "assets": "webpack --config webpack.config.js"
+    "dev:server": "nodemon",
+    "dev:assets": "webpack"
   },
   "author": "JayJay Kim",
   "license": "MIT",
@@ -33,7 +32,13 @@
     "@babel/core": "^7.14.0",
     "@babel/node": "^7.14.2",
     "@babel/preset-env": "^7.14.1",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.6",
+    "mini-css-extract-plugin": "^1.6.0",
     "nodemon": "^2.0.7",
+    "sass": "^1.34.0",
+    "sass-loader": "^11.1.1",
+    "style-loader": "^2.0.0",
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0"
   }
