@@ -5,12 +5,16 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   //entry means source code (세련된 코드)
   //entry js file got scss file linked inside
-  entry: "./src/client/js/main.js",
+  entry: {
+    main: "./src/client/js/main.js",
+    videoPlayer: "./src/client/js/videoPlayer.js",
+  },
   plugins: [new MiniCssExtractPlugin({ filename: "css/styles.css" })],
   mode: "development",
   watch: true,
   output: {
-    filename: "js/main.js",
+    //[name takes key main&videoPlayer from entry object as a variables]
+    filename: "js/[name].js",
     //to combine path
     path: path.resolve(__dirname, "assets"),
     clean: true,
