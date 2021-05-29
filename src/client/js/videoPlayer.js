@@ -1,5 +1,3 @@
-const { compileClientWithDependenciesTracked } = require("pug");
-
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const playBtnIcon = playBtn.querySelector("i");
@@ -19,13 +17,17 @@ let controlsMovementTimeOut = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
 
+const playBtnIconChange = () => {
+  playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
+};
+
 const handlePlayClick = (e) => {
   if (video.paused) {
     video.play();
   } else {
     video.pause();
   }
-  playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
+  playBtnIconChange();
 };
 
 const handleMute = (e) => {
@@ -104,6 +106,25 @@ const handleMouseLeave = () => {
   controlsTimeout = setTimeout(hideControls, 3000);
 };
 
+const handleSpacebar = (event) => {
+  const key = event.code;
+  if (key === "Space" && video.paused) {
+    video.play();
+  } else if (!video.paused && key === "Space") {
+    video.pause();
+  }
+  playBtnIconChange();
+};
+
+const handleVideoClick = () => {
+  if (video.paused) {
+    video.play();
+  } else {
+    video.pause();
+  }
+  playBtnIconChange();
+};
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeInput);
@@ -111,6 +132,7 @@ timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullscreen);
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("click", handleVideoClick);
 document.addEventListener("keyup", handleSpacebar);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);

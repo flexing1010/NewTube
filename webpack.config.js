@@ -3,6 +3,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
+  target: "node",
   //entry means source code (세련된 코드)
   //entry js file got scss file linked inside
   entry: {
