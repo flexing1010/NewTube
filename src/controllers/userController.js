@@ -28,6 +28,7 @@ export const postJoin = async (req, res) => {
       email,
       password,
       location,
+      avatarUrl: "",
     });
   } catch (error) {
     //error인자는 mongoose에서 온다
@@ -204,6 +205,7 @@ export const postEdit = async (req, res) => {
 
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
+    req.flash("error", "Can't change password");
     return res.redirect("/");
   }
   return res.render("users/change-password", { pageTitle: "Change Password" });
@@ -233,8 +235,7 @@ export const postChangePassword = async (req, res) => {
   }
   user.password = newPassword;
   await user.save();
-
-  //send notification
+  req.flash("info", "Password Updated");
   return res.redirect("/users/logout");
 };
 

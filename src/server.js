@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import flash from "express-flash";
 import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
@@ -20,7 +21,10 @@ app.set("views", process.cwd() + "/src/views");
 //use() allow us to use function on every route
 app.use(logger);
 //bodyparser의 역할
+//form으로 부터 오는 정보를 req.body.(name)에 저장해준다
 app.use(express.urlencoded({ extended: true }));
+//convert data to json
+app.use(express.json());
 
 app.use(
   session({
@@ -32,6 +36,7 @@ app.use(
   })
 );
 
+app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
 app.use("/assets", express.static("assets"));

@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const videoSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true, maxLength: 80 },
   fileUrl: { type: String, required: true },
+  thumbUrl: { type: String, required: true },
   description: { type: String, required: true, trim: true, minLength: 5 },
   //default에 Date.now를 사용함으로 써 Video.create에 createdAt을 설정 할 필요없이
   //자동적으로 생성되게 했다
@@ -11,6 +12,9 @@ const videoSchema = new mongoose.Schema({
   meta: {
     views: { type: Number, default: 0, required: true },
   },
+  comments: [
+    { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Comment" },
+  ],
   //ref is to tell from which model is this objectId is coming from
   owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
 });
