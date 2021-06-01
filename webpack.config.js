@@ -14,8 +14,6 @@ module.exports = {
     commentSection: Base_JS + "commentSection.js",
   },
   plugins: [new MiniCssExtractPlugin({ filename: "css/styles.css" })],
-  mode: "development",
-  watch: true,
   output: {
     //[name takes key main&videoPlayer from entry object as a variables]
     filename: "js/[name].js",

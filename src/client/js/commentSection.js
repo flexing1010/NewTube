@@ -62,8 +62,6 @@ const handleDelete = async (event) => {
       },
     },
   } = event;
-  // const commentId = parentNode.dataset.id;
-  // const commentId = event.target.parentNode.dataset.id;
   parentNode.remove();
   await fetch(`/api/comments/${id}`, {
     method: "DELETE",
