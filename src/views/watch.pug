@@ -42,7 +42,7 @@ block content
                         div.commentIcon
                             i.fas.fa-comment
                     else
-                        img.commentAvatar(src="/" + comment.avatarUrl)  
+                        img.commentAvatar(src=comment.avatarUrl)  
                     span.commentText  #{comment.text} 
                     if String(comment.owner) === String(loggedInUser._id)
                         span.deleteComment ❌

@@ -185,12 +185,12 @@ export const postEdit = async (req, res) => {
       errorMessage: "This username is already taken.",
     });
   }
-
+  const isHeroku = process.env.NODE_ENV === "production"
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
       //if file exist avatarUrl = file.path, if not avatarUrl is same as before
-      avatarUrl: file ? file.location : avatarUrl,
+      avatarUrl: file ? (isHeroku ? file.location :file.path) : avatarUrl,
       name,
       email,
       username,
