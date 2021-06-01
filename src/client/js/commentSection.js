@@ -14,6 +14,7 @@ const addComment = (text, newCommentId) => {
   const icon = document.createElement("i");
   const span = document.createElement("span");
   const span2 = document.createElement("span");
+  span.className = "commentText";
   span2.innerText = " ❌";
   span2.className = "deleteComment";
 

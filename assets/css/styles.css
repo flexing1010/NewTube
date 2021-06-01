@@ -134,14 +134,22 @@ table {
 }
 
 header {
+  background-color: #212121;
   padding: 20px 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 header .header__logo {
+  display: flex;
+  align-items: center;
   color: #cc0d00;
   font-size: 38px;
+}
+header .header__logo span {
+  color: white;
+  margin-left: 5px;
+  font-size: 30px;
 }
 header .noAvatar {
   font-size: 20px;
@@ -424,6 +432,10 @@ form label {
   text-decoration: underline;
 }
 
+.video__comment-form textarea {
+  resize: none;
+}
+
 .video__comments {
   display: flex;
   flex-direction: column;
@@ -433,11 +445,27 @@ form label {
   margin-top: 20px;
 }
 .video__comments .video__comment {
+  display: flex;
+  align-items: center;
   border-radius: 100px;
-  padding: 10px;
+  padding: 4px;
   background-color: white;
   color: black;
   margin-bottom: 10px;
+  font-size: 1.25rem;
+}
+.video__comments .video__comment .commentText {
+  word-break: break-word;
+}
+.video__comments .video__comment .fas.fa-comment {
+  padding: 7.5px;
+  font-size: 30px;
+}
+.video__comments .video__comment .commentAvatar {
+  margin-right: 10px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
 }
 .video__comments .deleteComment {
   cursor: pointer;

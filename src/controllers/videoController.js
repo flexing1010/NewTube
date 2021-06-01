@@ -19,6 +19,7 @@ export const watch = async (req, res) => {
     //return is necessary in this case
     return res.status(404).render("404", { pageTitle: "Video not found" });
   }
+  console.log(video);
   //first argument is a view file, second argument is an object of variables for view files
   return res.render("watch", { pageTitle: video.title, video });
 };
@@ -155,10 +156,12 @@ export const createComment = async (req, res) => {
   if (!video) {
     return res.sendStatus(404);
   }
+  console.log(user);
   const comment = await Comment.create({
     text,
     owner: user._id,
     video: id,
+    avatarUrl: user.avatarUrl,
   });
   video.comments.push(comment._id);
   video.save();
