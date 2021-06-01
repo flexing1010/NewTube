@@ -190,7 +190,7 @@ export const postEdit = async (req, res) => {
     _id,
     {
       //if file exist avatarUrl = file.path, if not avatarUrl is same as before
-      avatarUrl: file ? file.path : avatarUrl,
+      avatarUrl: file ? file.location : avatarUrl,
       name,
       email,
       username,
