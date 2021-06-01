@@ -6,7 +6,8 @@ import "./models/User.js";
 import "./models/Comment.js";
 import app from "./server.js";
 
-const PORT = 5000;
+// const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 //opens the application to the internet
 const handleListening = () =>
