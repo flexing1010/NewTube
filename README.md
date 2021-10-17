@@ -1,16 +1,8 @@
 # NewTube
 
-/ -> Home
-/join -> Join
-/login -> Login
-/search -> Search
+## NewTube 란?
 
-/users/:id -> See User
-/users/logout -> Log Out
-/users/edit -> Edit My Profile
-/users/delete-user -> Delete My Profile
+### <a href="https://newtube0.herokuapp.com/">사이트 바로가기</a>
 
-/videos/:id -> See Video
-/videos/:id/edit -> Edit Video
-/videos/:id/delete -> Delete Video
-/videos/upload -> Upload Video
+- JS, Node, HTML, CSS, PUG 로 만들어진 유튜브의 클론사이트
+- Heroku를 통해 배포
